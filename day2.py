@@ -17,7 +17,7 @@ class Shape(Enum):
 
 # A for Rock, B for Paper, and C for Scissors
 # X for Rock, Y for Paper, and Z for Scissors
-results = {
+results_part_1 = {
     "A": {  # Rock
         "X": Score.DRAW.value + Shape.ROCK.value,  # Rock 4
         "Y": Score.WIN.value + Shape.PAPER.value,  # Paper 8
@@ -35,14 +35,32 @@ results = {
     },
 }
 
+# X means you need to lose, Y means you need to end the round in a draw, and Z means you need to win
+results_part_2 = {
+    "A": {  # Rock
+        "X": Score.LOSE.value + Shape.SCISSORS.value,  # Lose 3
+        "Y": Score.DRAW.value + Shape.ROCK.value,  # Draw 4
+        "Z": Score.WIN.value + Shape.PAPER.value,  # Win 8
+    },
+    "B": {  # Paper
+        "X": Score.LOSE.value + Shape.ROCK.value,  # Lose 1
+        "Y": Score.DRAW.value + Shape.PAPER.value,  # Draw 5
+        "Z": Score.WIN.value + Shape.SCISSORS.value,  # Win 9
+    },
+    "C": {  # Scissors
+        "X": Score.LOSE.value + Shape.PAPER.value,  # Lose 2
+        "Y": Score.DRAW.value + Shape.SCISSORS.value,  # Draw 6
+        "Z": Score.WIN.value + Shape.ROCK.value,  # Win 7
+    },
+}
+
 
 with open("day_2_input.csv", "r") as csv_file:
-    csv_reader = reader(csv_file)
     total_score = 0
 
-    for row in csv_reader:
-        opponent_throw, my_throw = row[0].split()
-        result = results[opponent_throw][my_throw]
+    for row in reader(csv_file):
+        opponent_throw, outcome = row[0].split()
+        result = results_part_2[opponent_throw][outcome]
         total_score += result
 
     print(total_score)
